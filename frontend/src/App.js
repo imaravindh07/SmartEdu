@@ -1,20 +1,15 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import HomePage from './pages/HomePage';
+import TopicList from './components/TopicList';
 
-function App() {
-  const [message, setMessage] = useState("");
-
-  useEffect(() => {
-     axios.get("/api/test")
-      .then(res => setMessage(res.data))
-      .catch(err => setMessage("Error: " + err.message));
-  }, []);
-
-  return (
-    <div style={{ padding: "2rem", fontSize: "1.5rem" }}>
-      <h3>{message}</h3>
-    </div>
-  );
-}
+const App = () => (
+  <Router>
+    <Routes>
+      <Route path="/" element={<HomePage />} />
+      <Route path="/topics" element={<TopicList />} />
+    </Routes>
+  </Router>
+);
 
 export default App;

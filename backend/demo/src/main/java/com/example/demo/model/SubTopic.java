@@ -12,9 +12,6 @@ public class SubTopic {
     @Column(length = 5000)
     private String content;
 
-    @Column(length = 5000)
-    private String codeExample;
-
     @ManyToOne
     @JoinColumn(name = "category_id")
     private TopicCategory category;
@@ -41,14 +38,6 @@ public class SubTopic {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getCodeExample() {
-        return codeExample;
-    }
-
-    public void setCodeExample(String codeExample) {
-        this.codeExample = codeExample;
     }
 
     public TopicCategory getCategory() {
