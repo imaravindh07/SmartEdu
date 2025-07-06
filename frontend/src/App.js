@@ -1,15 +1,24 @@
+// src/App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import TopicList from './components/TopicList';
+import Navbar from './components/Navbar';
+import TopicList from './components/TopicList'; 
+import Home from './components/Home'; 
 
-const App = () => (
-  <Router>
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route path="/topics" element={<TopicList />} />
-    </Routes>
-  </Router>
-);
+
+function App() {
+  return (
+    <Router>
+      <Navbar />
+      <div className="p-4">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/topics" element={<TopicList />} />
+          <Route path="/about" element={<div>About SmartEdu</div>} />
+        </Routes>
+      </div>
+    </Router>
+  );
+}
 
 export default App;
