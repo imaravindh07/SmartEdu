@@ -10,9 +10,11 @@ import com.example.demo.model.TopicCategory;
 import com.example.demo.repository.SubTopicRepository;
 import com.example.demo.repository.TopicCategoryRepository;
 import com.example.demo.service.TopicService;
+import java.util.stream.Collectors;
+
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @CrossOrigin(origins = "http://localhost:3000")
 @RestController
@@ -59,4 +61,20 @@ public class TopicController {
                 .map(st -> new SubTopicDTO(st.getId(), st.getTitle(), st.getContent()))
                 .collect(Collectors.toList());
     }
+
+    @GetMapping("/topics/{id}")
+    public ResponseEntity<TopicCategoryDTO> getTopicById(@PathVariable Long id) {
+    Optional<TopicCategory> topic = topicCategoryRepository.findById(id);
+    if (topic.isPresent()) {
+        TopicCategory t = topic.get();
+        List<SubTopicDTO> subtopics = t.getSubTopics().stream()
+            .map(st -> new SubTopicDTO(st.getId(), st.getTitle(), st.getContent()))
+            .collect(Collectors.toList());
+        TopicCategoryDTO dto = new TopicCategoryDTO(t.getId(), t.getName(), t.getDescription(), subtopics);
+        return ResponseEntity.ok(dto);
+    } else {
+        return ResponseEntity.notFound().build();
+    }
+}
+
 }

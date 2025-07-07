@@ -1,35 +1,36 @@
+// src/components/TopicsList.js
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import SubtopicsList from './SubtopicsList';
+import { useNavigate } from 'react-router-dom';
 
-const TopicsList = () => {
+const TopicList = () => {
   const [topics, setTopics] = useState([]);
-  const [selectedTopicId, setSelectedTopicId] = useState(null);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-  axios.get('/api/topics')
-    .then(res => {
-      console.log('Topics API response:', res.data);
-      setTopics(res.data);
-    })
-    .catch(err => console.error(err));
-}, []);
-
+  useEffect(() => {
+    axios.get('/api/topics')
+      .then(res => {
+        setTopics(res.data);
+      })
+      .catch(err => console.error(err));
+  }, []);
 
   return (
-    <div>
-      <h2>Topics</h2>
-      <ul>
+    <div className="p-4">
+      <h2 className="text-2xl font-bold mb-4 text-white">Topics</h2>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-7">
         {topics.map(topic => (
-          <li key={topic.id} onClick={() => setSelectedTopicId(topic.id)}>
-            {topic.name}
-          </li>
+          <div
+            key={topic.id}
+            onClick={() => navigate(`/topics/${topic.id}`)}
+            className="cursor-pointer p-4 border rounded-xl shadow hover:shadow-lg transition duration-300 bg-white"
+          >
+            <h3 className="text-lg font-semibold">{topic.name}</h3>
+          </div>
         ))}
-      </ul>
-
-      {selectedTopicId && <SubtopicsList categoryId={selectedTopicId} />}
+      </div>
     </div>
   );
 };
 
-export default TopicsList;
+export default TopicList;
